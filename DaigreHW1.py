@@ -32,16 +32,19 @@ def verifyInputFile(inputFile):
     #     print("Input does not .")
     #     return False
     for line in inputFile:
+        print("Verifining line: ", line)
         if checklineFormat(line) != True:
             print("This input was not correct: ", line)
             return False
     return True
 
 def getFileLineCount(inputFile):
-    totallines = 0
+    totalLines = 0
     for line in inputFile:
-        totallines += 1
-    return totallines
+        print("Counting line: ", line)
+        totalLines += 1
+    print("Line count: ", totalLines)
+    return totalLines
 
 def checklineFormat(line):
     lineRegExp = re.compile("/((?!24:)[0-2][0-9]:[0-5][0-9]\n)/g")
@@ -53,6 +56,8 @@ def checklineFormat(line):
 
 
 inputFile = openInputFile()
+print("File open: ", inputFile)
 if verifyInputFile(inputFile) != True:
+    print("input file was not verified")
     sys.exit(1)
 
