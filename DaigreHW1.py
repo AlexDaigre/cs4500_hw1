@@ -8,6 +8,12 @@
 # Sources:
 #   https://www.pythonforbeginners.com/files/reading-and-writing-files-in-python
 #   https://stackoverflow.com/questions/845058/how-to-get-line-count-cheaply-in-python
+#   https://stackoverflow.com/questions/179369/how-do-i-abort-the-execution-of-a-python-script
+#   https://docs.python.org/3/library/re.html#re.compile
+#   https://regexr.com/
+
+import sys
+import re
 
 def openInputFile():
     fileName = "HW1input.txt"
@@ -17,6 +23,19 @@ def verifyInputFile(inputFile):
     linecount = getFileLineCount(inputFile)
     if linecount <= 0:
         print("Input file was empty.")
+        return False
+    #Unsure about spec
+    # elif linecount > 40:
+    #     print("Input has greater than 40 lines.")
+    #     return False
+    # elif (linecount % 2) != 0:
+    #     print("Input does not .")
+    #     return False
+    for line in inputFile:
+        if checklineFormat(line) != True:
+            print("This input was not correct: ", line)
+            return False
+    return True
 
 def getFileLineCount(inputFile):
     totallines = 0
@@ -24,8 +43,16 @@ def getFileLineCount(inputFile):
         totallines += 1
     return totallines
 
-def checkFileFormat(inputFile):
-    print("")
+def checklineFormat(line):
+    lineRegExp = re.compile("/((?!24:)[0-2][0-9]:[0-5][0-9]\n)/g")
+    if lineRegExp.match(line):
+        return True
+    else:
+        print("This input was not correct: ", line)
+        return False
+
 
 inputFile = openInputFile()
-verifyInputFile(inputFile)
+if verifyInputFile(inputFile) != True:
+    sys.exit(1)
+
