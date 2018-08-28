@@ -13,10 +13,15 @@
 #   https://regexr.com/
 #   https://www.w3schools.com/python/python_lists.asp
 #   https://docs.python.org/3/library/stdtypes.html#str.rstrip
-#   
+#   https://docs.python.org/2/library/time.html
+#   https://stackoverflow.com/questions/10494312/parsing-time-string-in-python
+#   https://stackoverflow.com/questions/44596077/datetime-strptime-in-python
+#   https://docs.python.org/3/library/itertools.html#itertools-recipes
 
 import sys
 import re
+import datetime
+import itertools
 
 def openInputFileAndGetContents():
     fileName = "HW1input.txt"
@@ -64,15 +69,25 @@ def checklineFormat(line):
         print("This input was not correct: " + line)
         return False
 
+def generateOutput(fileContents, outputData):
+    for a,b in pairwise(fileContents):
+        print(a, b)
 
-fileContents = openInputFileAndGetContents()
+def pairwise(iterable):
+    a, b = itertools.tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+
 outputData = []
+fileContents = openInputFileAndGetContents()
 print("File open: ", fileContents)
-if verifyFileContents(fileContents, outputData) != True:
-    outputData.append("input file was not verified")
-    print("input file was not verified")
-else:
-    outputData.append("All time pairs processed: program ending.")
-    print("All time pairs processed: program ending.")
-openOutputFileAndWriteContents(outputData)
 
+if verifyFileContents(fileContents, outputData) != True:
+    openOutputFileAndWriteContents(outputData)
+    sys.exit()
+
+generateOutput(fileContents, outputData)
+
+outputData.append("All time pairs processed: program ending.")
+print("All time pairs processed: program ending.")
